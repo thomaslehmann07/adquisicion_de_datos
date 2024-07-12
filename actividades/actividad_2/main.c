@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
 #include "hardware/i2c.h"
-#include "lcd.h"
+#include "lcd_i2c.h"
 #include "bmp280.h"
 
 /*
@@ -11,11 +11,14 @@
 int main() {
     // Habilito USB
     stdio_init_all();
-
-    // Inicializacion de I2C
-
+    // Incicializacion del I2C0
+    i2c_init(i2c0, 100000);
+    gpio_set_function(4, GPIO_FUNC_I2C);
+    gpio_set_function(5, GPIO_FUNC_I2C);
+    gpio_pull_up(4);
+    gpio_pull_up(5);
     // Inicializacion del LCD
-    lcd_init(i2c0, 0x27);
+    lcd_init();
     // Inicializo BMP280
     bmp280_init();
 
